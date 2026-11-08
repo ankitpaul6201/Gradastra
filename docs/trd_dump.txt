@@ -1,0 +1,895 @@
+GRADASTRA
+TECHNICAL REQUIREMENTS DOCUMENT
+Website Architecture, Technology Stack,APIs, Integrations and Engineering Specifications
+Independent global college intelligence and student advisory platform
+Version 1.0  |  30 October 2026Engineering blueprint derived from the Gradastra PRD. Vendor choices are recommendations, not existing integrations.
+Document Control and Scope
+Field
+Value
+Product
+Gradastra
+Document
+Technical Requirements Document (TRD)
+Version
+1.0
+Status
+Proposed technical baseline for implementation planning
+Scope
+Public website, student/advisor accounts, university data, reviews, consultations, admin, integrations, security and operations
+Business constraint
+Free for students; no university partnerships, admission commissions, paid placements or lead selling
+Architecture principle
+Modular monolith first; avoid premature microservices
+This TRD converts the Gradastra PRD into implementable technical requirements. It defines a recommended stack, system boundaries, data model, API contracts, third-party services, workflows, security controls, deployment approach and acceptance criteria. The team must verify current vendor pricing, regional availability, terms, data-processing agreements and API limits before committing.
+1. Technical Goals and Constraints
+Deliver a responsive, accessible, SEO-friendly global education platform.
+Support public university discovery without mandatory login.
+Support authenticated students, verified advisors, moderators and administrators.
+Keep consultations free and prevent any commission or paid-placement logic from entering the product.
+Distinguish official information, independently checked facts, student-reported experiences and opinion.
+Protect student identity and enrollment documents; never expose verification documents publicly.
+Launch with a focused, maintainable system that a small engineering team can operate.
+Support multiple countries, campuses, currencies, academic calendars, degree structures and time zones.
+2. Recommended Technology Stack
+Layer
+Recommended technology
+Purpose / notes
+Language
+TypeScript
+Shared types across frontend, backend and validation.
+Web framework
+Next.js (App Router)
+SSR/SSG, routing, server components, metadata and API handlers.
+UI
+React + Tailwind CSS
+Responsive component-driven interface.
+Component primitives
+shadcn/ui + Radix UI
+Accessible dialogs, menus, tabs, forms and controls.
+Forms
+React Hook Form + Zod
+Client forms and shared input validation.
+Database
+PostgreSQL
+Transactional relational data and structured records.
+ORM
+Prisma
+Typed database access and schema migrations.
+Authentication
+Clerk OR Supabase Auth
+Choose one; do not implement two identity providers initially.
+Object storage
+Supabase Storage OR Cloudinary
+Private evidence documents in restricted storage; public image assets separately.
+Search (MVP)
+PostgreSQL full-text + trigram
+University, course and city search.
+Search (later)
+Meilisearch OR Typesense
+Only if relevance, facets or scale outgrow PostgreSQL.
+Email
+Resend
+Verification, transactional and notification emails.
+Background jobs
+Inngest OR Trigger.dev
+Retries, scheduled reminders, moderation jobs and email workflows.
+Rate limiting/cache
+Upstash Redis
+Rate limits, short-lived cache and request coordination where required.
+Analytics
+PostHog
+Product events and funnel analysis; configure privacy controls.
+Error monitoring
+Sentry
+Frontend/backend exceptions and performance traces.
+Testing
+Vitest, Playwright, Testing Library
+Unit, integration and browser end-to-end tests.
+CI/CD
+GitHub Actions
+Lint, typecheck, tests, build and deployment gates.
+Hosting
+Vercel OR equivalent
+Next.js hosting and preview deployments.
+Database hosting
+Supabase managed PostgreSQL OR other managed Postgres
+Backups, connection pooling and database operations.
+Maps
+OpenStreetMap data via a suitable tile/geocoding provider
+Map display; comply with provider attribution and usage policies.
+Video/voice
+External meeting link in MVP
+Do not build WebRTC in the first release.
+Recommended baseline: Next.js + TypeScript + PostgreSQL + Prisma + one auth provider + managed object storage. Select exact vendors after a proof of concept and review of data residency, privacy terms, pricing and lock-in. The stack is intentionally replaceable at service boundaries.
+3. High-Level System Architecture
+Browser / Mobile Web      |      vNext.js Web Application (SSR pages + client components)      |      +--> Route Handlers / Server Actions (validated, authorized)      |        |      |        +--> Domain modules: Identity, Universities, Facts, Reviews,      |        |    Advisors, Consultations, Messaging, Moderation, Notifications      |        |      |        +--> PostgreSQL (Prisma)      |        +--> Private Object Storage (verification documents)      |        +--> Redis (rate limits / cache, optional)      |        +--> Job Runner (email, reminders, scheduled tasks)      |      +--> External providers: Auth, Email, Analytics, Maps, Meeting links
+3.1 Architectural requirements
+Use a modular monolith with clear domain boundaries and dependency direction.
+Keep business rules in server-side domain/service modules, not UI components.
+Use server-side authorization for every protected read and write.
+Use database transactions for multi-record state changes.
+Use asynchronous jobs for non-critical external calls and retries.
+Keep provider integrations behind adapter modules so vendors can be replaced.
+Do not expose service-role keys, database credentials or private storage credentials to the browser.
+Use a separate staging environment and production environment.
+4. Application Modules and Technical Responsibilities
+Module
+Responsibilities
+Public web & SEO
+Home, public university pages, country guides, reviews, metadata, sitemap and robots controls.
+Identity & access
+Signup, login, email verification, session handling, roles, account status and consent.
+Student profile
+Academic profile, goals, preferences, saved institutions and comparison lists.
+University catalogue
+Institutions, campuses, programs, countries, official URLs and structured attributes.
+University facts
+Claim/value/source/provenance, verification status, date checked and review date.
+Advisor network
+Advisor application, eligibility, profile, evidence review, verification status and availability.
+Reviews
+Submission, rating dimensions, moderation, public display, reports, appeals and edits.
+Consultations
+Requests, accept/decline, scheduling, state transitions, cancellation and feedback.
+Messaging
+Consultation-scoped messages, notifications, abuse reporting and retention.
+Country guides
+Education-system content, cost information, official resource links and update dates.
+Scholarships
+Scholarship records, eligibility, deadlines, source links and expiry handling.
+Comparison & shortlist
+Compare 2–4 institutions and explain fit against user priorities.
+Admin & moderation
+Queues, verification, content reports, audit logs, source updates and user actions.
+Notifications
+Transactional email and in-app notifications; user preferences and delivery logs.
+5. Frontend Requirements
+5.1 Route map
+Route
+Access
+Purpose
+/
+Public
+Homepage and core search.
+/universities
+Public
+Searchable university directory.
+/universities/[country]/[slug]
+Public
+University profile and analysis.
+/universities/[slug]/reviews
+Public
+Reviews and experience summaries.
+/countries/[slug]
+Public
+Country education guide.
+/advisors
+Public
+Advisor directory; only approved public profiles.
+/advisors/[slug]
+Public
+Advisor profile and consultation CTA.
+/compare
+Student
+Compare selected universities.
+/dashboard
+Student
+Saved institutions, profile and requests.
+/consultations
+Student/Advisor
+Consultation inbox and history.
+/advisor/apply
+Authenticated student
+Advisor application.
+/advisor/dashboard
+Approved advisor
+Availability, profile and requests.
+/admin
+Admin/moderator
+Operations and moderation console.
+/trust
+Public
+Independence and information methodology.
+/privacy, /terms, /guidelines
+Public
+Legal and policy pages.
+5.2 UI and accessibility
+Mobile-first responsive layouts; core flows must work at narrow phone widths.
+Target WCAG 2.2 AA: keyboard navigation, visible focus, semantic headings, labels, contrast and accessible errors.
+Use loading, empty, error, success and permission-denied states for every data-driven view.
+Use pagination or cursor-based loading for large directories and review lists.
+Do not communicate status through colour alone.
+Use optimistic UI only where rollback is safe; consultation state changes should reflect server confirmation.
+Keep public university content server-rendered and indexable; private dashboard content must not be indexed.
+5.3 Design system
+Define semantic design tokens for colour, typography, spacing, radii and elevation.
+Use consistent components for university cards, source labels, verification badges, review summaries and consultation states.
+Provide explicit labels for 'Officially published', 'Independently checked', 'Student-reported', 'Personal opinion' and 'Not verified'.
+Do not use an aggregate quality score until its methodology, minimum sample rules and bias controls are documented.
+6. Backend and API Design
+Use versioned JSON REST endpoints under /api/v1 for public and authenticated product operations. Next.js route handlers may implement these initially. Use OpenAPI 3.1 to document contracts. Internal domain services should not depend on HTTP request objects.
+6.1 API conventions
+JSON request and response bodies; UTF-8.
+Use UUID identifiers or opaque stable IDs; never expose sequential database IDs.
+Use ISO 8601 timestamps in UTC and store the user's IANA time zone separately.
+Use ISO 4217 currency codes and store monetary amounts as decimal values, not floating-point numbers.
+Validate all inputs with Zod or equivalent on the server.
+Use cursor pagination for growing collections; enforce maximum page sizes.
+Return consistent error envelopes with a stable machine-readable code and safe message.
+Use idempotency keys for operations where duplicate submissions would be harmful.
+Apply rate limits to login, advisor requests, reviews, messaging and public search.
+Never return private document URLs, internal moderation notes or sensitive account fields.
+6.2 Standard response shapes
+Success: { "data": { ... }, "meta": { "requestId": "..." } }Error:   { "error": { "code": "VALIDATION_ERROR", "message": "Check the submitted fields", "fields": {} }, "meta": { "requestId": "..." } }List:    { "data": [ ... ], "page": { "nextCursor": "...", "hasMore": true } }
+6.3 Endpoint inventory
+Method & endpoint
+Access
+Function
+GET /api/v1/universities
+Public
+Search/filter universities; paginated.
+GET /api/v1/universities/:slug
+Public
+Read public university profile.
+GET /api/v1/universities/:id/facts
+Public
+Read public facts and source labels.
+GET /api/v1/universities/:id/reviews
+Public
+Read approved reviews.
+GET /api/v1/countries/:slug
+Public
+Read country guide.
+GET /api/v1/advisors
+Public
+Search approved advisor profiles.
+GET /api/v1/advisors/:slug
+Public
+Read public advisor profile and availability summary.
+POST /api/v1/student-profile
+Student
+Create/update student profile.
+GET /api/v1/student-profile
+Student
+Read own profile.
+POST /api/v1/saved-universities
+Student
+Save an institution.
+DELETE /api/v1/saved-universities/:id
+Student
+Remove saved institution.
+POST /api/v1/comparisons
+Student
+Create/update comparison set; 2–4 institutions.
+POST /api/v1/advisor-applications
+Student
+Submit advisor application.
+GET /api/v1/advisor-applications/me
+Student
+Read own application status.
+POST /api/v1/consultations
+Student
+Request consultation.
+GET /api/v1/consultations
+Student/Advisor
+List own consultations.
+PATCH /api/v1/consultations/:id
+Participant
+Accept, decline, reschedule or cancel according to state rules.
+POST /api/v1/consultations/:id/messages
+Participant
+Send consultation-scoped message.
+GET /api/v1/consultations/:id/messages
+Participant
+Read messages for own consultation.
+POST /api/v1/reviews
+Eligible user
+Submit review.
+PATCH /api/v1/reviews/:id
+Author
+Edit own review if allowed by policy.
+POST /api/v1/reports
+Authenticated user
+Report content or user.
+POST /api/v1/consultations/:id/feedback
+Student
+Submit post-consultation feedback.
+GET /api/v1/admin/verifications
+Admin
+Review advisor verification queue.
+PATCH /api/v1/admin/verifications/:id
+Admin
+Approve, reject or request more information.
+GET /api/v1/admin/reports
+Moderator/Admin
+Review reported content.
+PATCH /api/v1/admin/reports/:id
+Moderator/Admin
+Resolve, dismiss or escalate report.
+POST /api/v1/admin/universities
+Admin
+Create institution record.
+PATCH /api/v1/admin/universities/:id
+Admin
+Update institution record.
+POST /api/v1/admin/facts
+Admin/Research editor
+Add sourced university fact.
+POST /api/v1/admin/audit-events/export
+Restricted admin
+Export permitted audit records.
+6.4 Endpoint validation rules
+Only public, approved and non-sensitive fields may be returned by public endpoints.
+Advisor application requires institution, program, academic stage, eligibility declaration and private evidence upload reference.
+Consultation requests require an approved advisor, allowed time window, topic and consent to platform rules.
+Only consultation participants may read or send messages in that consultation.
+Only eligible authors may submit reviews; eligibility checks must not expose identity evidence publicly.
+Admin endpoints require a separate admin permission check and must write audit events.
+All list endpoints must enforce maximum page size and safe filter allowlists.
+6.5 OpenAPI and API testing
+Maintain an OpenAPI 3.1 specification in the repository.
+Generate or validate typed clients from the specification where useful.
+Add contract tests for authorization, validation, pagination and error shapes.
+Publish no internal admin API documentation publicly.
+Use seeded non-production data for API demos and automated tests.
+7. Data Model and Database Requirements
+Table / aggregate
+Key fields and constraints
+users
+id, auth_provider_id, email, display_name, role/status, created_at; unique provider ID and normalized email.
+student_profiles
+user_id FK, education level, country, goals, preferences; one-to-one with user.
+countries
+id, ISO country code, name, default currency, guide status.
+universities
+id, name, slug, country_id, type, website, status; unique slug within defined scope.
+campuses
+id, university_id, name, city, address, geo point; institution may have many campuses.
+programs
+id, campus/university FK, title, degree level, subject, duration, language, source.
+university_facts
+id, university_id, field, value, source_type, source_url, checked_at, expires_at, status, editor_id.
+advisor_profiles
+user_id, institution_id, program_id, academic_stage, bio, expertise, languages, public_status.
+advisor_verifications
+id, advisor_id, evidence_storage_key, status, reviewer_id, reviewed_at, expires_at; storage key private.
+advisor_availability
+advisor_id, weekday/date, start/end, timezone, active; avoid overlapping slots.
+reviews
+id, author_id, university_id, program_id, campus_id, status, body, created_at, edited_at.
+review_ratings
+review_id, dimension, score; score range constrained by policy.
+consultations
+id, student_id, advisor_id, status, requested_at, start_at, end_at, timezone, format, topic.
+messages
+id, consultation_id, sender_id, body, created_at, moderation_status.
+saved_universities
+user_id, university_id, created_at; unique pair.
+comparison_sets
+id, user_id, title, created_at.
+comparison_items
+comparison_set_id, university_id, position; maximum four per set.
+reports
+id, reporter_id, target_type, target_id, reason, status, created_at, resolution.
+scholarships
+id, title, provider, country, eligibility, deadline, source_url, status.
+notifications
+id, user_id, type, payload, read_at, created_at.
+audit_events
+id, actor_id, action, target_type, target_id, metadata, created_at; append-only.
+7.1 Data integrity
+Use foreign keys, unique constraints, check constraints and transactions.
+Use soft deletion only where audit or legal needs require it; otherwise implement documented deletion/anonymization workflows.
+Store timestamps in UTC; retain IANA time zone for display and scheduling.
+Store currency code with each amount and retain source date for fee estimates.
+Store source provenance for every material factual claim.
+Keep student identity documents in private object storage; database stores opaque storage keys and review metadata only.
+Do not store raw payment data; the MVP has no student payments.
+7.2 Example domain enums
+UserRole: STUDENT | ADVISOR | MODERATOR | ADMINAdvisorStatus: DRAFT | PENDING | VERIFIED | NEEDS_INFO | REJECTED | SUSPENDED | EXPIREDFactSourceType: OFFICIAL | INDEPENDENTLY_CHECKED | STUDENT_REPORTED | OPINION | UNKNOWNReviewStatus: PENDING | PUBLISHED | HIDDEN | REMOVED | APPEALEDConsultationStatus: REQUESTED | ACCEPTED | DECLINED | RESCHEDULE_PROPOSED | CONFIRMED | COMPLETED | CANCELLED | NO_SHOW
+8. Authentication, Authorization and Account Lifecycle
+Use one identity provider (Clerk or Supabase Auth) with email verification; evaluate social login as an optional convenience.
+Use secure, httpOnly, sameSite cookies where applicable; avoid storing long-lived tokens in localStorage.
+Enforce roles and resource ownership on the server for every protected operation.
+Support account states: pending verification, active, suspended, deletion requested and deleted/anonymized.
+Require re-authentication or step-up checks for sensitive admin actions.
+Provide account export/deletion request workflows subject to lawful retention requirements.
+Do not permit self-service users to assign themselves advisor, moderator or admin roles.
+8.1 Authorization matrix
+Resource/action
+Guest
+Student
+Advisor
+Moderator/Admin
+Read public university profile
+Yes
+Yes
+Yes
+Yes
+Save/compare university
+No
+Own data
+Own data if enabled
+Support access only when justified
+Submit review
+No
+Eligible user
+Eligible user
+Moderation only
+Apply as advisor
+No
+Yes
+Already applied
+Review
+Manage own advisor profile
+No
+No
+Yes
+Support/admin override with audit
+Request consultation
+No
+Yes
+No
+Support with audit
+Respond to assigned consultation
+No
+No
+Yes
+Limited dispute access
+Moderate reviews/reports
+No
+No
+No
+Moderator/Admin
+Manage platform roles
+No
+No
+No
+Restricted Admin
+9. Advisor Verification and Document Handling
+Accept only the minimum evidence needed to establish current enrolment and eligibility.
+Use private buckets with no public listing; issue short-lived signed download URLs only to authorized reviewers.
+Limit document access to assigned verification reviewers; log every access.
+Never include evidence documents in advisor public profiles or API responses.
+Record verification decision, reviewer, timestamp, reason category and expiry/recheck date.
+Delete raw evidence after the documented retention period unless a lawful hold or appeal requires retention.
+Support re-verification when enrollment period expires, status is uncertain or a credible report is received.
+Allow an advisor to appeal a rejection and submit replacement evidence.
+10. Consultation and Messaging Workflow
+10.1 State transitions
+REQUESTED -> ACCEPTED -> CONFIRMED -> COMPLETEDREQUESTED -> DECLINEDREQUESTED -> CANCELLEDACCEPTED -> RESCHEDULE_PROPOSED -> CONFIRMEDCONFIRMED -> CANCELLED | NO_SHOW | COMPLETED
+Only valid transitions are allowed. Store actor, timestamp and reason for state changes. A cancellation policy should define notice windows and repeated no-show handling without creating financial penalties.
+10.2 Scheduling requirements
+Store requested and confirmed times in UTC and the participant's IANA time zone.
+Display time-zone conversions explicitly to both parties.
+Prevent overlapping accepted advisor bookings, subject to a configurable buffer.
+Use database locking or transactional availability checks to prevent double booking.
+Send confirmation, reminder, cancellation and reschedule notifications.
+Do not imply that a meeting is confirmed until the advisor accepts and the server commits the state change.
+Use external meeting links in MVP; restrict link visibility to consultation participants.
+10.3 Messaging controls
+Messages are scoped to a consultation and accessible only to its participants and specifically authorized safety staff.
+Apply message length limits, rate limits, spam detection and report controls.
+Do not expose personal contact details by default.
+Define retention, export and deletion rules in the privacy policy.
+Provide a way to report harassment, impersonation, unsafe requests or attempts to sell services.
+11. Reviews, Moderation and Reputation
+Review eligibility must be established without publicly exposing a reviewer's identity documents.
+Require disclosure of course/program and approximate study period; avoid unnecessary personal data.
+Use structured rating dimensions and free-text prompts.
+Keep published reviews immutable in the audit trail; edits create version history.
+Provide moderation queue, policy reason codes, appeal and takedown workflow.
+Detect spam patterns and duplicate submissions; do not automatically remove a review solely due to sentiment.
+Do not create a single university quality ranking in MVP.
+Any aggregate rating must show sample size, date range, dimension and minimum sample threshold.
+11.1 Content source labels
+Label
+Meaning
+Required metadata
+Officially published
+Published by the institution or government.
+Source URL, publisher, checked date.
+Independently checked
+Cross-checked by Gradastra against reliable evidence.
+Evidence/source, reviewer, checked date and scope.
+Student-reported
+Experience reported by a student.
+Verified contributor status, submission date; not a universal claim.
+Personal opinion
+Subjective assessment or preference.
+Author context and opinion label.
+Not verified
+Insufficient evidence or stale claim.
+Reason/status and review date where available.
+12. Third-Party APIs and Services
+The table below lists candidate providers and integration purposes. These are options, not a claim that accounts, keys or integrations already exist. Before implementation, verify current official documentation, pricing, rate limits, permitted use, data-processing terms and country availability.
+Capability
+Candidate service/API
+Usage and integration notes
+Authentication
+Clerk OR Supabase Auth
+Identity, email verification, sessions and social login if required.
+Database
+Supabase PostgreSQL OR managed PostgreSQL
+Application records, transactions and migrations; do not expose privileged database access.
+Private file storage
+Supabase Storage OR Cloudinary
+Advisor verification files must be private; use access policies and short-lived signed URLs.
+Email delivery
+Resend
+Transactional email; domain authentication (SPF, DKIM, DMARC) required.
+Maps/tiles
+OpenStreetMap-compatible tile provider
+Map tiles and attribution; do not assume public OSM tile servers are free for unrestricted production use.
+Geocoding
+Nominatim or commercial geocoder
+Check usage policy, rate limits, attribution and caching rules before production.
+Analytics
+PostHog
+Events, funnels and product usage; avoid sending identity documents or sensitive review content.
+Error monitoring
+Sentry
+Errors and traces; scrub tokens, email, message bodies and private data.
+Background jobs
+Inngest OR Trigger.dev
+Retries, scheduled reminders, source refresh tasks and notification fan-out.
+Rate limiting
+Upstash Redis
+Protect auth, review, message, consultation and search endpoints.
+Search
+PostgreSQL FTS; later Meilisearch/Typesense
+Search institutions, programs and country guides.
+Meeting links
+Google Meet / Zoom links created by participants
+MVP may accept a participant-provided meeting link; do not request broad calendar access initially.
+Calendar integration (later)
+Google Calendar API / Microsoft Graph
+Only if users explicitly connect accounts; scope narrowly and explain access.
+Bot protection
+Cloudflare Turnstile
+Protect public forms and account creation where abuse occurs.
+Web analytics alternatives
+Plausible
+Privacy-focused alternative; choose one analytics platform.
+CDN/WAF
+Cloudflare or hosting provider
+DNS, caching, bot controls and edge protection; configure carefully for dynamic/private routes.
+12.1 APIs intentionally excluded from MVP
+No paid university admission or application API is required for the core service.
+No scraping of university websites without reviewing terms, robots directives and applicable law.
+No visa eligibility API or automated legal advice.
+No AI-generated admission guarantees or placement predictions.
+No payment gateway because student consultations are free and the product does not sell admission leads.
+No native video/WebRTC infrastructure in the first release.
+13. Notifications and Background Jobs
+Event
+Action
+Email verified
+Activate eligible account state and notify user.
+Advisor application submitted
+Notify verification queue and applicant.
+Verification decision
+Notify advisor with decision and next steps.
+Consultation requested
+Notify advisor; start expiry/reminder workflow.
+Consultation accepted/declined
+Notify student and update dashboard.
+Consultation approaching
+Send configurable reminders in local time.
+Consultation cancelled/rescheduled
+Notify both participants and update calendar details.
+New consultation message
+Send notification without exposing message body in email by default.
+Review reported
+Create moderation task and notify assigned staff.
+Fact nearing expiry
+Create research/admin review task.
+Scholarship deadline approaching
+Notify opted-in users only if preference and source freshness permit.
+Jobs must be idempotent, retry transient failures with backoff, record delivery status and route persistent failures to an operational queue. Avoid duplicate reminders after retries.
+14. Search, Ranking and Recommendation Logic
+14.1 Search
+Search by university name, alias, campus, city, country, subject and program.
+Normalize case and common punctuation; support typo tolerance only after evaluation.
+Provide filters for country, degree level, subject, institution type, language and known fee range.
+Show why a result matched where useful.
+Do not rank results based on payment, commission or institutional promotion.
+14.2 Shortlisting
+The MVP shortlist should be explainable and rules-based. It may filter institutions by stated preferences and display fit indicators such as subject match, budget compatibility and published eligibility. Each indicator must identify its input data and missing-data limitations. Do not label a student 'eligible' unless official criteria and all required inputs have been checked.
+14.3 No opaque ranking
+Avoid a single 'best college' score. If a future fit score is introduced, publish the methodology, weights, data freshness, minimum evidence requirements and known limitations. Users must be able to change priorities and understand trade-offs.
+15. Security Requirements
+Control area
+Technical requirement
+Transport
+HTTPS/TLS everywhere; secure cookies and HSTS in production.
+Secrets
+Store API keys in managed environment secrets; rotate and restrict permissions.
+Authorization
+Server-side RBAC and resource ownership checks on every protected endpoint.
+Input handling
+Schema validation, output encoding, parameterized queries and safe file handling.
+Uploads
+File type/size allowlist, malware scanning where feasible, private bucket and randomized object keys.
+CSRF
+Use framework protections and origin checks for cookie-authenticated mutations.
+XSS
+Escape output, sanitize permitted rich text and apply a restrictive Content Security Policy.
+Rate limits
+Per-IP and per-account controls for sensitive/public endpoints.
+Audit
+Append-only audit events for admin actions and sensitive document access.
+Privacy
+Data minimization, retention schedules, deletion workflows and privacy-safe analytics.
+Backups
+Automated database backups and tested restoration procedure.
+Incident response
+Document detection, containment, notification and recovery procedures.
+Dependency security
+Automated dependency scanning, patch cadence and lockfile review.
+15.1 Threats to address
+Fake advisor identity and forged enrollment evidence.
+Unauthorized access to student verification documents.
+IDOR: one user accessing another user's profile, consultation or message.
+Review manipulation, coordinated rating attacks and spam.
+Harassment, grooming, phishing or off-platform solicitation.
+Credential stuffing, account takeover and session theft.
+Admin account compromise and privilege escalation.
+Injection, XSS, CSRF, SSRF and malicious file uploads.
+Accidental disclosure through logs, analytics, email or support tooling.
+16. Privacy and Data Governance
+Collect only data necessary for the feature and explain the purpose at collection.
+Keep public profile data separate from private identity and verification data.
+Define retention periods for raw evidence documents and consultation messages.
+Provide user access, correction, export and deletion request processes as applicable.
+Document lawful basis/consent and cross-border transfers with qualified legal advice.
+Use privacy-safe analytics and redact personal data from error logs.
+Restrict staff access by role and business need; periodically review permissions.
+Publish a privacy notice that names processors and explains data sharing.
+Because Gradastra is intended to serve users internationally, obtain legal review for applicable privacy and child-safety requirements in each launch market. Do not assume one country's consent or retention model satisfies every jurisdiction. Consider age-gating or guardian-consent workflows if serving minors.
+17. SEO, Content and Data Quality Engineering
+Render public university and country pages server-side with unique titles, descriptions and canonical URLs.
+Generate XML sitemaps only for published, sufficiently complete records.
+Use robots directives to exclude dashboards, private pages, search result permutations and admin routes.
+Use structured data only where it accurately represents visible content and follows search engine policies.
+Track source URL, source publisher, retrieval/check date, data owner and expiry/review date for facts.
+Flag stale tuition, deadline, placement and visa information; never silently present old values as current.
+Provide correction requests on university pages.
+Do not bulk-index thin pages created only to capture keywords.
+18. Testing and Quality Assurance
+Test layer
+Tools / checks
+Minimum coverage
+Unit
+Vitest
+Domain rules, state transitions, validators, fee/currency formatting and ranking logic.
+Component
+Testing Library
+Forms, labels, error states, source badges and accessible interactions.
+Integration
+Vitest + test database
+Database constraints, API handlers, role checks and transaction behaviour.
+E2E
+Playwright
+Signup, advisor application, verification, review submission, consultation lifecycle and admin moderation.
+Accessibility
+axe-core + manual keyboard tests
+Critical public and authenticated flows.
+Security
+Dependency scanning + targeted manual tests
+IDOR, role escalation, upload access, rate limiting and session controls.
+Performance
+Lighthouse + load test tool
+Public profile pages, search, consultation endpoints and database query paths.
+Backup/restore
+Staging restore exercise
+Prove recoverability, not just backup job success.
+18.1 Critical end-to-end scenarios
+Guest can search and open a public university page without logging in.
+Student can register, verify email and update their own profile.
+Student cannot set their own role to advisor or admin.
+Advisor application uploads are private and inaccessible to other users.
+Admin can approve or reject advisor verification with an audit trail.
+Only approved advisors appear in public advisor search.
+Student can request a consultation; advisor can accept or decline.
+Only consultation participants can read messages.
+Student can submit a review; it is not public until moderation policy permits publication.
+Reported content enters moderation queue and its outcome is auditable.
+Deleted/suspended users lose access according to account policy.
+University facts display source labels and checked dates.
+19. Performance, Availability and Scalability
+Area
+Initial target / requirement
+Core Web Vitals
+Aim for LCP ≤ 2.5s, INP ≤ 200ms and CLS ≤ 0.1 on representative pages.
+API latency
+Set endpoint-specific budgets; optimize measured slow paths rather than promise a universal value.
+Availability
+Initial service objective 99.5%, excluding planned maintenance and third-party outages as defined.
+Search
+Paginated results, indexed fields and bounded query complexity.
+Database
+Connection pooling, query logging, indexes and slow-query review.
+Caching
+Cache public, relatively stable content; never cache private account or consultation responses publicly.
+Scale strategy
+Vertical/managed scaling first; separate workers or search service only when measured need appears.
+Resilience
+Retries, timeouts, graceful degradation and provider outage messaging.
+20. Deployment and DevOps
+20.1 Environments
+Environment
+Purpose
+Data policy
+Local
+Developer workflow
+Synthetic data; local secrets ignored by version control.
+Preview
+Per-branch review
+Synthetic or anonymized data; no production verification documents.
+Staging
+Release candidate testing
+Production-like configuration; synthetic test users and files.
+Production
+Live users
+Restricted access, backups, monitoring and change controls.
+20.2 CI/CD pipeline
+Pull request -> formatting/lint -> typecheck -> unit tests -> integration tests            -> dependency/security scan -> build -> preview deploy -> review/approval            -> database migration check -> production deploy -> smoke tests -> monitor
+Require pull-request review for protected branches.
+Run migrations as a controlled release step; avoid destructive schema changes without expand/migrate/contract planning.
+Use feature flags for risky launches.
+Maintain rollback instructions for application and database changes.
+Pin dependencies and review automated update proposals.
+Never use production personal data in screenshots, test fixtures or developer demos.
+20.3 Observability
+Capture structured logs with request IDs and severity levels.
+Track API error rate, latency, database health, job failures, email delivery and consultation conversion.
+Alert on elevated error rates, failed background queues, backup failures and suspicious admin activity.
+Scrub authorization headers, tokens, private messages and identity evidence from logs.
+Maintain operational runbooks for common incidents.
+21. Analytics and Product Events
+Event
+Properties (minimized)
+university_search
+query category, filters used, result count; avoid storing sensitive free-text by default.
+university_view
+university ID, source-page context.
+university_saved
+university ID.
+comparison_created
+number of institutions, not private notes.
+advisor_application_started
+application stage.
+advisor_application_submitted
+application ID and status only.
+consultation_requested
+advisor ID, institution ID, requested format.
+consultation_completed
+consultation ID, completion status.
+review_submitted
+institution ID, moderation status; avoid review body in analytics.
+report_submitted
+target type and reason category.
+Analytics must not be used to sell leads or target students on behalf of institutions. Provide consent and opt-out controls where required by law.
+22. Admin Operations and Internal Tools
+Verification queue with secure document preview, reviewer notes and decision reasons.
+University data editor with source metadata and review date.
+Review moderation queue with policy categories and appeal workflow.
+Reports queue with severity, assignment, status and resolution history.
+User suspension and reinstatement controls with audit trail.
+Consultation support view with least-privilege access and reason logging.
+Content freshness dashboard showing expired or soon-to-expire facts.
+Export tools limited to necessary, authorized data and recorded in audit logs.
+23. Acceptance Criteria for MVP
+Feature
+Definition of done
+Public university directory
+Search/filter works, results paginate, empty/error states exist and records link to public profiles.
+University profile
+Shows structured sections, source labels, last-checked dates and clear missing-data states.
+Student authentication
+Signup/login/logout, email verification, session security and account recovery work.
+Student profile
+User can view/edit only their own profile and preferences.
+Advisor application
+Eligible student can apply and submit private evidence; upload is not public.
+Advisor review
+Authorized admin can approve/reject/request info; every action is audited.
+Advisor directory
+Only approved, active advisors are listed; profile exposes only public fields.
+Consultations
+Request, accept, decline, cancel and complete states enforce valid transitions.
+Messaging
+Only participants can access conversation; report and rate-limit controls exist.
+Reviews
+Eligible users submit; moderation, reports and public display follow policy.
+Admin
+Role-protected moderation, university editing and audit history work.
+Privacy/security
+No public document access, server-side authorization, deletion process and basic security checks pass.
+SEO
+Public pages have metadata, canonical URLs, sitemap eligibility and noindex for private pages.
+Operations
+Production monitoring, backups, staging and rollback procedures are documented.
+24. Implementation Sequence and Engineering Workstreams
+Workstream
+Implementation order / dependencies
+A. Repository and foundations
+Project setup, TypeScript, linting, CI, environments, design tokens and error handling.
+B. Identity and roles
+Auth provider, user model, role checks, account lifecycle and audit events.
+C. University data
+Country, university, campus, program and source/fact schema; admin data entry.
+D. Public discovery
+Homepage, directory, search, profiles, SEO and country pages.
+E. Advisor verification
+Private uploads, application workflow, admin review and approved directory.
+F. Reviews and moderation
+Review model, eligibility, moderation queue, reporting and appeals.
+G. Consultations
+Availability, request lifecycle, messaging, reminders and feedback.
+H. Hardening
+Accessibility, performance, security testing, backups, monitoring and launch checklist.
+Recommended sequencing: build a narrow vertical slice first (public university page → advisor profile → consultation request) and validate it with real users before broadening the catalogue.
+25. Risks, Decisions and Open Questions
+Decision / risk
+Recommended default
+Auth provider
+Choose Clerk or Supabase Auth after evaluating pricing, user geography and desired ownership; do not combine initially.
+Hosting and data residency
+Select based on target users, privacy obligations, operational skill and vendor region availability.
+Advisor age and minor safety
+Set minimum advisor age and safeguarding rules; obtain legal review for minors and cross-border consultations.
+Verification evidence
+Define accepted documents by country and minimize what is collected.
+Review anonymity
+Allow public pseudonyms while retaining proportionate private eligibility checks.
+Consultation format
+Text plus external meeting links for MVP; no built-in video.
+University data sourcing
+Start with manual/editorial curation and official links; no uncontrolled scraping.
+Ranking methodology
+No global ranking in MVP; use explainable filters and comparisons.
+Retention periods
+Set with legal counsel and document-specific operational needs.
+Launch geography
+Begin with a limited, well-supported university cohort, then expand.
+26. External Documentation to Consult
+Use the official documentation for the selected versions and plans before implementation. APIs, pricing and policies change; this document does not freeze vendor versions.
+Next.js documentation: https://nextjs.org/docs
+React documentation: https://react.dev
+TypeScript handbook: https://www.typescriptlang.org/docs/
+PostgreSQL documentation: https://www.postgresql.org/docs/
+Prisma documentation: https://www.prisma.io/docs
+Supabase documentation: https://supabase.com/docs
+Clerk documentation: https://clerk.com/docs
+Tailwind CSS documentation: https://tailwindcss.com/docs
+shadcn/ui documentation: https://ui.shadcn.com/docs
+Resend documentation: https://resend.com/docs
+PostHog documentation: https://posthog.com/docs
+Sentry documentation: https://docs.sentry.io
+Playwright documentation: https://playwright.dev/docs/intro
+OpenAPI specification: https://spec.openapis.org/oas/latest.html
+OWASP ASVS and Cheat Sheet Series: https://owasp.org/www-project-application-security-verification-standard/ and https://cheatsheetseries.owasp.org/
+Appendix A — Suggested Repository Structure
+gradastra/  app/    (public)/    (auth)/    dashboard/    advisor/    admin/    api/v1/  components/    ui/    university/    advisor/    reviews/    consultations/  modules/    identity/    universities/    facts/    advisors/    reviews/    consultations/    messaging/    moderation/    notifications/  lib/    auth/    db/    storage/    email/    analytics/    validation/    rate-limit/  prisma/    schema.prisma    migrations/    seed.ts  jobs/  tests/    unit/    integration/    e2e/  docs/    openapi.yaml    runbooks/  public/  .github/workflows/
+Appendix B — Suggested Environment Variables
+DATABASE_URL=                         # pooled application connectionDIRECT_URL=                           # direct connection for migrations if provider requiresAUTH_SECRET=                          # server-only auth secret (provider-specific)NEXT_PUBLIC_APP_URL=                  # public canonical app URLSTORAGE_ENDPOINT=                     # provider-specific storage endpointSTORAGE_PRIVATE_BUCKET=               # private evidence bucket nameSTORAGE_SERVICE_KEY=                  # server-only, least-privilege keyRESEND_API_KEY=                       # server-only email keyEMAIL_FROM=                           # verified sender addressREDIS_URL=                            # optional rate-limit/cache connectionSENTRY_DSN=                           # configure server/client DSNs separately if neededPOSTHOG_KEY=                          # public project key only if safe for client usePOSTHOG_HOST=                         # analytics hostTURNSTILE_SECRET_KEY=                 # server-only bot protection secretTURNSTILE_SITE_KEY=                   # public site key
+Never commit .env files. Maintain a checked-in .env.example with placeholder values only. Use separate credentials for local, staging and production.
+Appendix C — Release Checklist
+Privacy notice, terms, advisor agreement and moderation policies reviewed.
+All public claims have source labels and dates where applicable.
+Advisor verification files are private and access-tested.
+Role and ownership tests pass, including IDOR tests.
+Consultation state transitions and time-zone display tested.
+Review moderation and appeals workflow staffed.
+Email domain authentication configured and delivery tested.
+Backups enabled and restore test completed.
+Monitoring, alerting and incident contacts configured.
+Accessibility and mobile usability checked.
+SEO metadata, sitemap and noindex rules validated.
+Rate limits, bot protection and upload restrictions enabled.
+Staging smoke tests pass and rollback procedure is documented.
+Technical North Star
+Build a trustworthy system before building a massive one.
+GRADASTRA  |  Independent education guidance. Always free for students.

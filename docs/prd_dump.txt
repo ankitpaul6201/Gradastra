@@ -1,0 +1,496 @@
+GRADASTRA
+PRODUCT REQUIREMENTS DOCUMENT
+Independent Global College Intelligence& Student Advisory Platform
+Real colleges. Real students. Informed decisions. Always free.
+Version 1.0  |  30 October 2026Prepared as the master product brief for website planning and development.
+Document Overview
+Item
+Definition
+Product
+Gradastra — global college discovery, analysis and student advisory platform
+Business model
+100% free for students; no admission commissions or paid university placements
+Geographic scope
+Worldwide, with a phased launch recommended
+Primary contributors
+Verified current university students, primarily third-year and above
+Institutional relationships
+No university, college, education-agent or admission-agency partnerships
+Core differentiator
+Independent, experience-based university intelligence from actual students
+Document status
+Product vision and initial requirements; subject to validation before implementation
+Working positioning: Gradastra helps students understand what studying at a college or university is actually like before they apply or enrol.
+1. Executive Summary
+Gradastra is an independent global education advisory platform designed to help students make informed decisions about universities and colleges before applying or enrolling. It combines independently researched university information, structured student reviews, and free guidance from verified senior students who have first-hand experience at the institutions they discuss.
+Unlike commission-driven admission consultancies, Gradastra will not maintain commercial partnerships, admission agreements or referral arrangements with universities or colleges. It will not receive commissions for student admissions or sell student leads. Its purpose is not to persuade students to join a particular institution; it is to help them assess whether an institution is right for their goals, circumstances and budget.
+Core promise: Real colleges. Real students. Unfiltered experiences. Informed decisions. Always free.
+2. Problem Statement
+Existing problem
+Gradastra response
+Institutions tend to promote their strongest features.
+Independent analysis and first-hand student experiences.
+Some agents may have financial incentives tied to enrolment.
+No commission-based recommendations or paid placements.
+Published placement claims can lack context.
+Separate official statistics from student-reported outcomes and explain methodology.
+Applicants struggle to reach current students.
+Verified senior-student advisor network.
+International college selection is complex.
+Country guides, practical cost information and university comparisons.
+Information is scattered across many sources.
+Structured university profiles and searchable information.
+Paid consultations can exclude students.
+Free consultation requests and student guidance.
+Core problem: Students make high-impact education decisions without consistent access to independent, practical and sufficiently contextual information.
+3. Mission, Vision and Values
+Mission: Make reliable, independent and practical college information accessible to every student, regardless of financial background or geographical location.
+Vision: Become a trusted global platform for independent university intelligence and student-led education guidance.
+Independence — recommendations must not be influenced by university payments or admission commissions.
+Transparency — distinguish verified facts, official claims, student reports and personal opinions.
+Authenticity — prioritize genuine first-hand experiences from real students.
+Accessibility — keep student-facing discovery and consultation free.
+Integrity — do not manipulate ratings, rankings or recommendations.
+Community — enable students to help future students make informed decisions.
+4. Target Audiences
+Audience
+Primary needs
+High-school students
+Explore undergraduate colleges, courses, countries and entry requirements.
+Undergraduate applicants
+Compare institutions, understand campus realities and shortlist options.
+Graduate applicants
+Research master's and postgraduate programs, costs and academic fit.
+International applicants
+Understand foreign education systems, expenses, accommodation and official visa resources.
+Student advisors
+Share first-hand experience and provide voluntary, free guidance to prospective students.
+Initial advisor focus: current students in the third year or above of undergraduate programs, along with eligible postgraduate students. Eligibility should be configurable by program length and education system rather than relying on one global year-number rule.
+5. Student-to-Student Advisory Model
+5.1 Advisor eligibility
+Be currently enrolled at a recognized college or university.
+Normally be in the third year or above of an undergraduate program, or an eligible stage of postgraduate study.
+Submit evidence of current enrolment for private verification.
+Complete advisor onboarding and agree to platform policies.
+Disclose conflicts of interest and distinguish personal experience from hearsay.
+Avoid fabricated claims, guaranteed outcomes or undisclosed promotional activity.
+5.2 Verification workflow
+Applicant creates an advisor account and selects country, institution, program and current academic stage.
+Applicant submits a suitable enrolment document or student ID through a secure upload flow.
+Admin reviews evidence and records a verification decision.
+Approved advisors receive a verified-student status badge.
+Advisor publishes a profile describing their experience and topics they can discuss.
+Verification is periodically refreshed; expired or uncertain status is clearly labelled.
+5.3 Advisor profile and topics
+A profile may include institution, campus, program, academic stage, country, experience areas, languages, availability and consultation formats. Public profiles must not expose student IDs, private contact details or verification documents.
+Teaching quality and faculty accessibility.
+Curriculum, workload, examination patterns and academic support.
+Internships, placement experiences and career support.
+Labs, libraries, classrooms and other infrastructure.
+Campus culture, clubs, events and student communities.
+Hostels, accommodation, food, transport and living expenses.
+Administrative support and international-student services.
+Advantages, disadvantages and advice the advisor would give a prospective student.
+Advisors must make clear whether a statement is a personal experience, a second-hand account or an official published fact. A single student's experience must not be represented as the universal experience of an institution.
+5.4 Compensation and participation
+Student consultations are free. The initial model is voluntary participation, with optional non-financial recognition such as contribution records or certificates. Recognition must not depend on recommending a particular institution or producing admissions.
+No consultation fees charged to students.
+No paid leads or referral fees.
+No commissions or incentives for recommending particular universities.
+No paid recommendations or preferential ranking.
+No requirement for advisors to disclose private phone numbers or email addresses.
+6. Core Website Modules
+6.1 University Explorer
+A searchable global directory. Search and filters should include institution name, country, city, degree level, subject, tuition budget, public/private status, language of instruction and program type. Filters should be based on structured data where possible and clearly label estimates.
+6.2 University Intelligence and Analysis
+Profile section
+Expected content
+Overview
+Location, campuses, institution type, establishment and recognition information.
+Academics
+Programs, curriculum, faculty information and teaching experience.
+Admissions
+Eligibility, application requirements, deadlines and official links.
+Fees
+Tuition, accommodation and other estimated expenses, with currency and date.
+Placements
+Officially published outcomes separated from student-reported experiences.
+Infrastructure
+Labs, libraries, classrooms, accessibility and facilities.
+Campus life
+Clubs, events, culture and student environment.
+Accommodation
+University housing, private housing and practical cost information.
+International support
+Support services and official resources for international students.
+Pros and cons
+Balanced perspectives with source and context labels.
+Student experiences
+Structured reviews and first-hand accounts.
+Ask a senior
+Directory of eligible verified student advisors.
+Every material claim should carry an information label: Officially published, Independently verified, Student-reported, Personal opinion, or Not yet verified. Where practical, show a source link, date checked and relevant limitations.
+6.3 Student Reviews
+Students can submit structured reviews for institutions and programs. Review dimensions may include academics, faculty, infrastructure, placements and internships, campus environment, accommodation, food and facilities, administration and overall experience.
+Capture institution, program, campus where relevant, student status and review date.
+Allow written experience, positive aspects, challenges and advice for applicants.
+Support private identity verification while allowing a public display name or pseudonym.
+Provide report, moderation, correction and appeal mechanisms.
+Do not remove legitimate criticism solely because it is negative; act on policy violations and demonstrably false or unlawful content through a fair process.
+6.4 Ask a Senior
+The signature feature connects prospective applicants with current senior students.
+Student opens a university profile and selects Talk to a Senior.
+Student browses eligible advisors by program, academic stage, expertise, language and availability.
+Student submits a consultation request with their questions and preferred time.
+Advisor accepts, declines or proposes another time.
+The parties communicate through platform messaging or an approved meeting link.
+Student can submit feedback after the consultation.
+Initial formats: text consultation, scheduled voice call using an external meeting link, group Q&A and anonymous question submission. Built-in video calling can be considered later.
+6.5 College Comparison
+Allow comparison of two to four institutions across tuition, living costs, academic information, placements, faculty feedback, infrastructure, accommodation, international support and student satisfaction. Do not declare a universal winner; explain trade-offs against the applicant's stated priorities.
+6.6 Country Education Guides
+Potential country coverage includes India, United States, United Kingdom, Canada, Australia, Germany, France, Ireland, Singapore, Netherlands, Japan, South Korea and New Zealand, with expansion as data quality and contributor coverage allow.
+Education system and institution types.
+Tuition ranges and cost-of-living estimates.
+Admission process and language requirements.
+Scholarships and funding opportunities.
+Official visa and immigration resources.
+Work regulations for international students, linked to official sources.
+Accommodation, transport and cultural considerations.
+Visa and immigration content must link to official government sources, show a last-updated date and avoid presenting the platform as a legal authority.
+6.7 Personalized College Shortlisting
+Students can enter academic qualifications, grades/GPA, preferred subjects and countries, budget, scholarship needs, language proficiency and career goals. The platform can produce an explainable shortlist showing why each institution may fit, published eligibility requirements, affordability considerations, disadvantages and missing information. It must not guarantee admission, scholarships or employment.
+6.8 Student Community
+A moderated discussion area can cover universities, countries, scholarships, admission experiences, campus life, accommodation, placements and international student experiences. Include reporting, blocking, anti-spam and moderation tools.
+7. User Roles and Permissions
+Role
+Permissions
+Guest
+Search and read public university information, guides and public reviews.
+Student
+Save universities, compare institutions, ask questions, request consultations and submit reviews.
+Verified advisor
+Maintain advisor profile, answer questions, manage consultation requests and submit experiences.
+Admin/moderator
+Manage users, universities, verification, reviews, reports, content and platform operations.
+A student should be able to apply to become an advisor without creating a separate account. Role permissions should be enforced server-side, not merely hidden in the interface.
+8. Website Pages and Navigation
+Home
+About Us
+Explore Universities
+University Details
+Compare Colleges
+Advisor Directory
+Advisor Profile
+Consultation Request and Management
+Student Reviews
+Country Guides
+Scholarships
+Student Dashboard
+Advisor Dashboard
+Admin Dashboard
+Contact and Support
+Trust, Transparency and Methodology
+Terms of Service and Privacy Policy
+9. Homepage Experience
+The homepage should communicate the independent, free model immediately. Within a few seconds, visitors should understand that Gradastra helps them explore universities through independent information and real student experiences.
+Hero headline: Choose your college with confidence.
+Subheading: Discover the reality behind universities through honest student experiences and independent analysis.
+Prominent university search.
+Independence and no-paid-placement statement.
+Country and university discovery.
+Student experience highlights.
+Talk to a Senior call to action.
+College comparison preview.
+How Gradastra works.
+Student testimonials, clearly labelled and consented.
+Become an Advisor section.
+FAQs and footer with trust, privacy and contact links.
+Suggested homepage proof points should be real metrics only. Do not publish placeholder numbers such as advisor counts, university coverage or consultation totals as if they were live platform statistics.
+10. User Journeys
+10.1 Prospective student journey
+Visit website → create a free account when needed → enter preferences → search universities → review institution analysis → read student experiences → compare shortlist → contact a verified senior → make an informed decision.
+10.2 Advisor journey
+Register → apply as advisor → submit institution and enrolment evidence → admin verification → approval → publish profile → receive requests → provide guidance → collect feedback.
+10.3 Research journey
+A visitor should be able to read public university profiles without registering. Registration should be reserved for interactive features such as saving, messaging, requesting consultations and submitting reviews.
+11. Independence and Business Rules
+The following are foundational rules and should be reflected in policy, product design and operating practice:
+No university or college partnership agreements that influence coverage or recommendations.
+No admission commissions, referral fees or payment tied to student enrolment.
+No paid university rankings or paid recommendation placement.
+No sale of student leads to admission agents or institutions.
+No hidden promotional placements.
+No charges to students for consultations.
+No fabricated reviews or undisclosed sponsored experiences.
+No suppression of legitimate criticism to protect an institution's reputation.
+Public independence statement
+Gradastra is an independent, student-focused education advisory platform. We do not have commercial partnerships, admission agreements or referral arrangements with universities or colleges. We do not receive commissions for student admissions. University information is gathered from publicly available sources, verified records and student-reported experiences. Our objective is to help students make informed decisions through transparent and independent guidance.
+Independence does not mean every statement is automatically verified. Gradastra must label sources, dates, evidence and confidence appropriately.
+12. Recommended Technology Stack
+Layer
+Recommended option
+Notes
+Frontend
+Next.js, React, TypeScript
+Server-rendered pages and a maintainable component system.
+Styling
+Tailwind CSS
+Responsive design and consistent tokens.
+UI components
+shadcn/ui
+Accessible, composable interface primitives.
+Backend
+Next.js API / Node.js modules
+Start with a modular monolith.
+Database
+PostgreSQL
+Relational data and structured university records.
+ORM
+Prisma
+Schema management and typed queries.
+Authentication
+Clerk or Supabase Auth
+Choose one provider after evaluating cost and requirements.
+File storage
+Cloudinary or Supabase Storage
+Private storage for verification documents; public media separated.
+Search
+PostgreSQL full-text search initially
+Upgrade only when search needs justify it.
+Email
+Resend or equivalent
+Transactional email and notifications.
+Hosting
+Vercel or equivalent
+Deploy web application.
+Database hosting
+Managed PostgreSQL/Supabase
+Backups, access control and monitoring.
+Analytics
+PostHog
+Product usage and conversion analysis.
+Error monitoring
+Sentry
+Frontend and backend error visibility.
+Maps
+OpenStreetMap-based provider
+University and campus location display.
+Architecture recommendation: begin with a modular monolith, not microservices. It is easier for a small team to build, test, deploy and maintain. Keep clear modules for identity, universities, reviews, advisors, consultations, moderation and notifications.
+13. Initial Database Planning
+Entity
+Representative fields
+Users
+id, name, email, role, status, created_at
+StudentProfiles
+user_id, education_level, country, preferences
+AdvisorProfiles
+user_id, institution_id, program_id, academic_stage, expertise, availability
+AdvisorVerifications
+advisor_id, document_reference, status, reviewer_id, reviewed_at
+Universities
+id, name, country_id, city, type, website, status
+Campuses
+id, university_id, name, address, location
+Programs
+id, institution_id, degree, subject, duration, eligibility
+UniversityFacts
+institution_id, claim, value, source_url, source_type, checked_at, status
+Reviews
+institution_id, program_id, author_id, ratings, content, status, created_at
+Consultations
+student_id, advisor_id, schedule, format, status
+Messages
+consultation_id, sender_id, content, created_at
+SavedUniversities
+user_id, university_id, created_at
+Comparisons
+user_id, selected_institution_ids
+Reports
+reporter_id, content_type, content_id, reason, status
+Countries
+id, name, education_guide, official_resource_links
+Scholarships
+id, provider, eligibility, deadline, funding, source_url
+The schema should support multiple campuses, programs, degree levels, currencies, academic calendars and different international education systems. Store source dates and provenance for factual claims. Avoid storing raw identity documents in ordinary application tables.
+14. Admin Dashboard
+University, campus, country and program management.
+Student and advisor account management.
+Advisor verification review, renewal, suspension and audit trail.
+Review moderation, reports, appeals and correction workflow.
+Consultation dispute and safety management.
+Source verification and outdated-information reminders.
+Content management for country guides and FAQs.
+Analytics and operational reporting.
+Role and permission management.
+Audit logs for sensitive administrative actions.
+Advisor enrolment verification and the factual accuracy of an advisor's individual claims are separate controls and must not be conflated.
+15. Trust, Safety and Data Protection
+HTTPS throughout the platform.
+Secure authentication, role-based authorization and server-side permission checks.
+Private storage for student verification documents, with restricted access.
+Encryption in transit and at rest where supported by the selected services.
+Data minimization, retention schedules and deletion workflows.
+Consent before publishing profiles, reviews, photos or testimonials.
+Report, block, moderation, appeal and account suspension processes.
+Rate limiting, spam prevention and abuse monitoring.
+No public display of student IDs, enrolment documents or private contact details.
+Allow pseudonymous public reviews where appropriate while privately verifying eligibility. Establish fair procedures for responding to complaints about allegedly false or defamatory content. Seek qualified legal advice for launch jurisdictions and cross-border data handling.
+16. Non-Functional Requirements
+Area
+Initial requirement / target
+Responsive design
+All core workflows usable on mobile, tablet and desktop.
+Performance
+Aim for Largest Contentful Paint under 2.5 seconds on representative pages.
+Accessibility
+Target WCAG 2.2 AA.
+Availability
+Initial operational target of 99.5%, subject to hosting and budget.
+Security
+Secure authentication, authorization, input validation and document access.
+SEO
+Server-rendered, indexable university and country pages with unique useful content.
+Scalability
+Modular architecture and managed infrastructure.
+Localization
+Multi-country and multi-currency support; plan for language expansion.
+Data freshness
+Display source dates and review/update reminders.
+17. SEO and Organic Growth
+Target useful, specific searches that reflect real student questions, such as:
+Is [University] worth it?
+[University] honest student review.
+[University] placement reality.
+Best universities for computer science in Germany.
+Affordable universities in Canada for international students.
+[University] hostel and accommodation review.
+Is [College] good for placements?
+Example URL structure:
+/universities
+/universities/india
+/universities/india/example-university
+/universities/germany/example-university
+/countries/germany
+/advisors/example-university
+/reviews/example-university
+/compare
+Do not automatically index empty, thin or duplicate university pages. Each indexable page should provide meaningful, maintained information and clearly identify missing data.
+18. MVP Development Roadmap
+Phase
+Scope
+Release priority
+1. Foundation
+Brand system, homepage, authentication, student/advisor accounts, admin basics, university directory and profiles.
+MVP essential
+2. Trust and intelligence
+Advisor verification, structured reviews, moderation, source tracking and university analysis.
+MVP essential
+3. Consultation
+Advisor directory, availability, requests, messaging or meeting links, feedback.
+MVP essential / staged rollout
+4. Discovery tools
+Comparison, country guides, student preferences, shortlisting and scholarship directory.
+After core validation
+5. Global expansion
+More countries, localization, group Q&A, advanced analytics and possible mobile app.
+Scale phase
+Postpone AI admission predictions, native mobile apps, built-in real-time video, automated visa decisions, complex recommendation algorithms, paid advertising and large social-network features until the core model is validated.
+19. Success Metrics and KPIs
+Metric
+Illustrative first six-month target
+Registered students
+1,000
+Verified student advisors
+100
+University profiles
+100
+Substantive student reviews
+300
+Completed consultations
+200
+Consultation satisfaction
+85% or higher
+Advisor verification completion
+80% or higher of eligible applications
+Student return rate
+25% or higher
+These are proposed planning targets, not forecasts or promises. Track consultation response time, successful match rate, source coverage, profile freshness, moderation resolution time and student-reported decision confidence as well.
+20. Risks and Mitigation
+Risk
+Mitigation
+Fake student accounts
+Private enrolment verification, periodic rechecks and abuse monitoring.
+Biased reviews
+Multiple perspectives, structured prompts and transparent methodology.
+Defamatory or harmful content
+Clear policy, moderation, report and appeal process.
+Outdated data
+Source dates, update reminders and stale-data labels.
+Inactive advisors
+Availability controls, inactivity handling and response metrics.
+Low initial coverage
+Launch with selected university clusters and recruit contributors first.
+Misleading placement claims
+Separate official statistics from student reports; preserve source and year.
+Privacy incidents
+Data minimization, restricted document access and incident response plan.
+Institutional pressure
+Public independence policy, documented corrections and transparent moderation.
+21. Business Model and Sustainability
+Gradastra will remain free for students. Initial operations may be founder-funded or supported by resources that do not compromise editorial independence. Potential future sources to evaluate include voluntary donations, unrestricted grants and carefully screened non-commercial educational support.
+Any future funding source must be publicly disclosed. No funding arrangement may influence reviews, rankings, university coverage or student recommendations. If sponsorship is ever introduced, it must be clearly labelled, separated from editorial decisions and governed by a published policy.
+22. Final Product Definition
+Product pillar
+Definition
+College Intelligence
+Searchable database of independently researched universities, student experiences and transparent analysis.
+Student Advisory Network
+Verified global network of senior students who voluntarily help prospective applicants.
+Education Discovery Platform
+Personalized environment for university discovery, comparison, country research and informed decision-making.
+23. Additional Product Requirements
+23.1 University information credibility
+Each university profile should show source availability, last verification date, number of student reviews, verified contributor coverage and information completeness. Information completeness must not be confused with university quality; a university with fewer reviews should not automatically receive a lower quality rating.
+23.2 Advisor quality
+Track consultation completion, response time, student feedback, helpfulness and policy compliance. Do not reward advisors for recommending particular institutions or producing admissions.
+23.3 Editorial independence
+Publish a methodology page explaining data collection, student verification, review moderation, rating calculations, update cycles, correction requests, complaint handling and funding disclosures.
+23.4 Legal and operational preparation
+Terms of Service.
+Privacy Policy.
+Student Advisor Agreement.
+Community Guidelines.
+Review and Moderation Policy.
+Educational guidance and admissions disclaimer.
+Data retention and deletion policy.
+Consent and cross-border privacy procedures.
+Obtain qualified legal review for the countries in which Gradastra operates. Do not claim accreditation or guarantee admissions, scholarships, visas, placements or employment.
+24. Final Development Priorities
+The first release should focus on five capabilities:
+A professional global education website.
+A searchable university directory with genuinely useful information.
+Verified third-year-and-above student advisors, with equivalent postgraduate eligibility.
+Independent student reviews and university analysis.
+A free consultation request and management system.
+The largest early challenge is not simply building the website. It is creating a trustworthy information base and recruiting enough verified senior students to make the platform useful. Begin with a focused set of institutions, prove the verification and consultation workflows, and expand based on evidence.
+25. Recommended Decisions Before Development
+Finalize Gradastra's visual identity, domain and trademark screening.
+Choose the first launch geography; India is a practical starting point before broader international expansion.
+Finalize advisor eligibility, verification evidence, renewal and safety policies.
+Define what counts as an official, independently verified, student-reported or opinion-based claim.
+Recruit a small founding cohort of verified advisors and seed a limited set of high-quality university profiles.
+Prepare legal policies and a data-protection plan before collecting identity documents.
+26. Follow-on Technical Specifications
+This PRD is the master product brief. Before implementation, derive separate working documents:
+Technical architecture and deployment specification.
+Detailed relational database schema and data dictionary.
+API endpoint and authorization specification.
+Page-by-page UI/UX specification and responsive states.
+Authentication, advisor verification and consultation workflow specifications.
+Admin moderation and operations playbook.
+Test plan, acceptance criteria and phased engineering backlog.
+Product North Star
+Help students choose with knowledge,not marketing.
+GRADASTRA
+Independent education guidance. Always free for students.
