@@ -4,25 +4,46 @@
 
 ---
 
-## 🌟 Overview
+## 🌟 What is Gradastra?
 
-**Gradastra** is a next-generation peer-to-peer university advisory platform built to disrupt traditional education agents. Unlike commercial consultants who collect 10%–25% university recruitment commissions, Gradastra operates on a 0% commission model with zero commercial university partnerships—providing transparent, verified student experiences, cutoff analyses, and median placement realities.
+**Gradastra** is a modern higher education intelligence platform designed to bring absolute transparency to college admissions, campus life, and career outcomes. 
 
-### Key Capabilities
+Traditional study-abroad and college recruitment agencies operate on a commissioned broker model—earning **10% to 25% kickbacks per student** from partner colleges. As a result, students are routinely steered toward institutions that maximize agency profit rather than what best serves the student's academic and career aspirations.
 
-* **0% Commission Advisory**: Zero university partnerships or recruiter bias.
-* **Verified Senior Mentors**: Direct intelligence from 3rd and 4th-year students actively studying on campus.
-* **Factual Comparison Engine**: Side-by-side transparent comparisons highlighting true placement figures, hidden fee structures, and campus workload.
-* **Integrated Contact & Booking**: Form submission powered by Web3Forms with custom animated envelope confirmations.
-* **Comprehensive SEO, AEO & GEO**:
-  * Semantic HTML5 with strict single-H1 topic hierarchy.
-  * Schema.org structured data (Organization, WebSite, EducationalOrganization, FAQPage, BreadcrumbList).
-  * Optimized metadata for AI search engines (ChatGPT Search, Perplexity, Google Gemini, Claude).
-  * Dynamic `sitemap.xml`, `robots.txt`, and `llms.txt`.
-* **Fluid Motion & Design System**:
-  * Lenis smooth scrolling with cubic bezier easing.
-  * Framer Motion interactive widgets, 3D testimonial cube, and blur-text reveal effects.
-  * Mobile-first responsive layouts.
+Gradastra fundamentally disrupts this model:
+* **0% University Commission**: No commercial partnerships with universities, colleges, or admission recruiters.
+* **100% Student-Centric**: Pure, unfiltered guidance directly from verified senior students (3rd & 4th year undergraduates and graduate students) currently enrolled on campus.
+* **Radical Transparency**: Unvarnished truths on median placement numbers, actual living expenses, professor workloads, and visa hurdles—free of marketing brochure spin.
+
+---
+
+## 🎯 What Does Gradastra Do?
+
+Gradastra provides prospective students and parents with complete clarity across the entire higher education journey:
+
+### 1. Direct Peer-to-Peer Campus Intelligence
+* Connects applicants with verified senior mentors across leading engineering, design, and business institutions in India and abroad.
+* Provides firsthand insights into genuine campus culture, problem sets (P-sets), grading curves, and faculty accessibility.
+
+### 2. Institutional Comparison & Placement Realities
+* Compares colleges side-by-side using real student-reported data.
+* Distinguishes between top 1% outlier brochure packages and realistic median campus compensation.
+* Uncovers hidden tuition escalations, compulsory meal plan costs, and true accommodation expenses.
+
+### 3. Cutoff, Choice Filling & Strategy Support
+* Offers data-driven college shortlisting and cutoff matrices tailored to student ranks and percentiles.
+* Provides unbiased guidance during counseling choice filling without steering toward sponsored partner universities.
+
+### 4. Interactive Exploration & Digital Experience
+* **Interactive University Explorer**: Filter colleges by region, cutoff range, fees, and specialization.
+* **Factual Comparison Engine**: Clear side-by-side evaluation contrasting Gradastra’s peer model with traditional agency incentives.
+* **3D Student Testimonial Viewport**: Interactive perspectives from enrolled students sharing verified campus reviews.
+* **Direct Inquiry & Consultation Dispatch**: Seamless contact workflow with animated envelope verification and guaranteed senior response.
+
+### 5. Engineered for Search & Answer Engines (SEO • AEO • GEO)
+* **Search Engine Optimisation (SEO)**: Clean semantic HTML5 hierarchy, high-performance Core Web Vitals, and responsive mobile architecture.
+* **Answer Engine Optimisation (AEO)**: Answer-first factual definitions and structured data tailored for direct extraction by AI search engines (ChatGPT Search, Perplexity, Google Gemini, Claude).
+* **Generative Engine Optimisation (GEO)**: Machine-readable JSON-LD schemas (`Organization`, `EducationalOrganization`, `FAQPage`, `BreadcrumbList`) and dynamic `llms.txt` enabling citation in generative AI summaries.
 
 ---
 
@@ -30,28 +51,29 @@
 
 ```text
 Gradastra/
-├── .env.example            # Environment configuration template
-├── .gitignore              # Strict ignore rules (ignores .env, build output, etc.)
-├── index.html              # Entry HTML with meta, OpenGraph, JSON-LD schemas
-├── package.json            # Project dependencies and script definitions
+├── .gitignore              # Environment and build exclusion rules
+├── LICENSE                 # Open source license
+├── README.md               # Platform overview and architectural documentation
+├── index.html              # Semantic HTML5 entrypoint with SEO/AEO JSON-LD schemas
+├── package.json            # Project dependencies and script declarations
 ├── tsconfig.json           # TypeScript configuration
-├── vite.config.ts          # Vite build and development configuration
-├── docs/                   # Specifications and technical requirements
+├── vite.config.ts          # Vite configuration
+├── docs/                   # Specifications, PRDs, and architecture documents
 │   ├── Gradastra_PRD_v1.docx
 │   ├── Gradastra_TRD_v1.docx
 │   ├── prd_dump.txt
 │   ├── trd_dump.txt
 │   └── references/         # Visual and architectural references
-├── public/                 # Static public assets
+├── public/                 # Static assets, web manifests, and crawler directives
 │   ├── favicon.ico
 │   ├── robots.txt          # Crawler instructions for Google, Perplexity, GPTBot, etc.
 │   ├── sitemap.xml         # XML sitemap for search engines
-│   └── ...                 # Optimized webp/svg imagery
+│   └── illustrations/      # Editorial visuals and university emblems
 └── src/                    # Source code
-    ├── App.tsx             # Root application orchestrator and routing
+    ├── App.tsx             # Main view state and route orchestrator
     ├── main.tsx            # React application entry point
-    ├── index.css           # Global typography, color variables, and styling
-    ├── components/         # Reusable UI and section components
+    ├── index.css           # Global typography and design system tokens
+    ├── components/         # Modular section and modal components
     │   ├── Navbar.tsx
     │   ├── HeroSection.tsx
     │   ├── ComparisonSection.tsx
@@ -62,67 +84,23 @@ Gradastra/
     │   ├── Footer.tsx
     │   ├── SeoHead.tsx
     │   └── ...
-    ├── framer/             # Interactive Framer motion components
-    └── types/              # TypeScript interface and type declarations
+    ├── framer/             # Component animation layers
+    └── types/              # Domain data contracts and TypeScript definitions
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🛠️ Technology Stack
 
-### Prerequisites
-
-* [Node.js](https://nodejs.org/) (version 18.0.0 or higher recommended)
-* `npm` or `pnpm` / `yarn`
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/ankitpaul6201/gradastra.git
-   cd gradastra
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Configure Environment Variables:
-   Copy `.env.example` to `.env` and supply your keys:
-   ```bash
-   cp .env.example .env
-   ```
-
-   In `.env`:
-   ```env
-   # Web3Forms API Key for inquiries
-   VITE_WEB3FORMS_ACCESS_KEY=your_web3forms_access_key_here
-   ```
-
-4. Start the development server:
-   ```bash
-   npm run dev
-   ```
-
-5. Build for production:
-   ```bash
-   npm run build
-   ```
-
----
-
-## 🔒 Security & Environment Variables
-
-* **Secret Keys & API Tokens**: Secrets and keys are strictly excluded from git tracking via `.gitignore`.
-* **Client-side Environment Variables**: Only non-sensitive variables prefixed with `VITE_` are exposed to the browser.
-* Always check that `.env` files are not staged prior to committing:
-  ```bash
-  git status --ignored
-  ```
+* **Frontend Framework**: React 18 with TypeScript
+* **Build Tool**: Vite
+* **Styling & Design System**: Custom CSS Design Tokens with CSS custom properties
+* **Smooth Motion & Physics**: Lenis smooth scroll + Framer Motion
+* **Type Safety**: TypeScript with strict null checks
+* **Form & Communication Layer**: Asynchronous submission with Web3Forms API
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

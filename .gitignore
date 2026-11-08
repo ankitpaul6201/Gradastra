@@ -25,9 +25,6 @@ dist-ssr/
 *.cert
 *.crt
 
-# Allow .env.example template
-!.env.example
-
 # Editor & OS specific files
 .DS_Store
 Thumbs.db
@@ -45,3 +42,4 @@ Thumbs.db
 
 # Duplicate raw framer extract (clean source is maintained in src/framer/)
 Smooth Scroll/
+
