@@ -91,9 +91,11 @@ export const App: React.FC = () => {
           if (el) {
             if (lenis) {
               lenis.start();
-              lenis.scrollTo(el, { duration: 1.2 });
+              lenis.resize();
+              lenis.scrollTo(el, { offset: -85, duration: 1.1 });
             } else {
-              el.scrollIntoView({ behavior: 'smooth' });
+              const targetTop = el.getBoundingClientRect().top + window.pageYOffset - 85;
+              window.scrollTo({ top: targetTop, behavior: 'smooth' });
             }
           } else {
             if (lenis) {
@@ -103,7 +105,7 @@ export const App: React.FC = () => {
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }
           }
-        }, 50);
+        }, 80);
       } else {
         const lenis = (window as any).__gradastraLenis;
         if (lenis) {

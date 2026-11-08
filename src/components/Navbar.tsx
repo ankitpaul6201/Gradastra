@@ -52,17 +52,42 @@ export const Navbar: React.FC<NavbarProps> = ({
   }, [mobileMenuOpen]);
 
   const scrollTo = (id: string) => {
+    // 1. Immediately unlock body & html from frozen modal styles
+    document.body.classList.remove('nav-menu-open');
+    document.documentElement.classList.remove('nav-menu-open');
+    document.body.style.overflow = '';
     setMobileMenuOpen(false);
+
+    const lenis = (window as any).__gradastraLenis;
+    if (lenis) {
+      lenis.start();
+    }
+
     if (currentPage !== 'home') {
       if (onNavigate) {
         onNavigate('home', id);
         return;
       }
     }
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+
+    // 2. Allow browser layout to recalculate document height (exiting 100vh lock)
+    setTimeout(() => {
+      const element = document.getElementById(id);
+      if (!element) return;
+
+      const headerOffset = (headerRef.current?.offsetHeight || 72) + 16;
+      if (lenis) {
+        lenis.start();
+        lenis.resize();
+        lenis.scrollTo(element, { offset: -headerOffset, duration: 1.1 });
+      } else {
+        const targetTop = element.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: targetTop,
+          behavior: 'smooth'
+        });
+      }
+    }, 80);
   };
 
   return (
@@ -94,6 +119,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Center Desktop Navigation */}
         <nav className="adviest-nav-links">
           <a href="#services" onClick={(e) => { e.preventDefault(); scrollTo('services'); }}>Why Us</a>
+          <a href="#comparison" onClick={(e) => { e.preventDefault(); scrollTo('comparison'); }}>Difference</a>
           <a href="#process" onClick={(e) => { e.preventDefault(); scrollTo('process'); }}>Process</a>
           <a href="#experience" onClick={(e) => { e.preventDefault(); scrollTo('experience'); }}>Services</a>
           <a href="#reviews" onClick={(e) => { e.preventDefault(); scrollTo('reviews'); }}>Testimonials</a>
@@ -208,6 +234,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <ChevronRight size={18} className="adviest-mobile-nav-arrow" />
                 </a>
                 <a 
+                  href="#comparison" 
+                  className="adviest-mobile-nav-item"
+                  onClick={(e) => { e.preventDefault(); scrollTo('comparison'); }}
+                >
+                  <span>The Difference</span>
+                  <ChevronRight size={18} className="adviest-mobile-nav-arrow" />
+                </a>
+                <a 
                   href="#process" 
                   className="adviest-mobile-nav-item"
                   onClick={(e) => { e.preventDefault(); scrollTo('process'); }}
@@ -246,7 +280,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <AdviestButton 
                   title="Contact Us" 
                   onClick={() => { 
+                    document.body.classList.remove('nav-menu-open');
+                    document.documentElement.classList.remove('nav-menu-open');
+                    document.body.style.overflow = '';
                     setMobileMenuOpen(false); 
+                    const lenis = (window as any).__gradastraLenis;
+                    if (lenis) lenis.start();
                     if (onNavigate) onNavigate('contact');
                     else onOpenContact(); 
                   }}
